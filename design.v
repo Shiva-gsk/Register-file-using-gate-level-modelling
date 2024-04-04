@@ -1,3 +1,76 @@
+module RF8_4b_GL
+   (
+     input  wire [2:0]  wrAddr,  //ip to one decoder
+     input  wire [3:0]  wrVal,   //ip to D reg file
+     input  wire        wrEn,     //ip to en of D reg file
+     input  wire [2:0]  rdAddr,  //ip to second decoder
+     output wire [3:0]  rdVal,   //line to op q of d reg file
+     input  wire clk             //clock to d reg  
+    );
+
+  wire n0,n1,n2,n3,n4,n5,n6,n7; 
+  wire [3:0] reg0;
+  wire [3:0] reg1;
+  wire [3:0] reg2;
+  wire [3:0] reg3;
+  wire [3:0] reg4;
+  wire [3:0] reg5;
+  wire [3:0] reg6 ;
+  wire [3:0] reg7;
+
+  Decoder_GL unit0(.Y7(n7),.Y6(n6),.Y5(n5),.Y4(n4),.Y3(n3),.Y2(n2),.Y1(n1),.Y0(n0),.A(wrAddr[2]),.B(wrAddr[1]),.C(wrAddr[0]),.En(wrEn));
+
+
+  //regfile (Q,D,CK,En);
+  //1st Row
+  regfile r00(reg0[3],wrVal[3],clk,n0);
+  regfile r01(reg0[2],wrVal[2],clk,n0);
+  regfile r02(reg0[1],wrVal[1],clk,n0);
+  regfile r03(reg0[0],wrVal[0],clk,n0);
+
+  //2nd Row
+  regfile r10(reg1[3],wrVal[3],clk,n1);
+  regfile r11(reg1[2],wrVal[2],clk,n1);
+  regfile r12(reg1[1],wrVal[1],clk,n1);
+  regfile r13(reg1[0],wrVal[0],clk,n1);
+
+  //3rd Row
+  regfile r20(reg2[3],wrVal[3],clk,n2);
+  regfile r21(reg2[2],wrVal[2],clk,n2);
+  regfile r22(reg2[1],wrVal[1],clk,n2);
+  regfile r23(reg2[0],wrVal[0],clk,n2);
+
+  //4th Row
+  regfile r30(reg3[3],wrVal[3],clk,n3);
+  regfile r31(reg3[2],wrVal[2],clk,n3);
+  regfile r32(reg3[1],wrVal[1],clk,n3);
+  regfile r33(reg3[0],wrVal[0],clk,n3);
+
+  //5th Row
+  regfile r40(reg4[3],wrVal[3],clk,n4);
+  regfile r41(reg4[2],wrVal[2],clk,n4);
+  regfile r42(reg4[1],wrVal[1],clk,n4);
+  regfile r43(reg4[0],wrVal[0],clk,n4);
+
+  //6th Row
+  regfile r50(reg5[3],wrVal[3],clk,n5);
+  regfile r51(reg5[2],wrVal[2],clk,n5);
+  regfile r52(reg5[1],wrVal[1],clk,n5);
+  regfile r53(reg5[0],wrVal[0],clk,n5);
+
+  //7th Row
+  regfile r60(reg6[3],wrVal[3],clk,n6);
+  regfile r61(reg6[2],wrVal[2],clk,n6);
+  regfile r62(reg6[1],wrVal[1],clk,n6);
+  regfile r63(reg6[0],wrVal[0],clk,n6);
+
+  //8th Row
+  regfile r70(reg7[3],wrVal[3],clk,n7);
+  regfile r71(reg7[2],wrVal[2],clk,n7);
+  regfile r72(reg7[1],wrVal[1],clk,n7);
+  regfile r73(reg7[0],wrVal[0],clk,n7);
+
+endmodule
 //register module
 module regfile (Q,D,CK,En);
   input D,CK,En;
@@ -9,7 +82,7 @@ module regfile (Q,D,CK,En);
 
 endmodule
 
-//mux
+//mux 2:1 
 module mux21(Ymux,Smux,Imux0,Imux1);
 output Ymux;
 input Smux,Imux0,Imux1;
