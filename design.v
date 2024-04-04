@@ -20,7 +20,6 @@ module RF8_4b_GL
 
   Decoder_GL unit0(.Y7(n7),.Y6(n6),.Y5(n5),.Y4(n4),.Y3(n3),.Y2(n2),.Y1(n1),.Y0(n0),.A(wrAddr[2]),.B(wrAddr[1]),.C(wrAddr[0]),.En(wrEn));
 
-
   //regfile (Q,D,CK,En);
   //1st Row
   regfile r00(reg0[3],wrVal[3],clk,n0);
@@ -110,6 +109,27 @@ module dff(Q,clk,D);
   nand_gate2 t6(qb,Q,m3);
 endmodule
 
+module Decoder_GL(Y7,Y6,Y5,Y4,Y3,Y2,Y1,Y0,A,B,C,En);
+  input A,B,C,En;
+  output Y7,Y6,Y5,Y4,Y3,Y2,Y1,Y0;
+
+  wire ab,bb,cb;
+
+not_gate oo1(ab,A);
+not_gate oo2(bb,B);
+not_gate oo3(cb,C);
+
+and4 oo4(Y0,En,ab,bb,cb);
+and4 oo5(Y1,En,ab,bb,C);
+and4 oo6(Y2,En,ab,B,cb);
+and4 oo7(Y3,En,ab,B,C);
+and4 oo8(Y4,En,A,bb,cb);
+and4 oo9(Y5,En,A,bb,C);
+and4 oo10(Y6,En,A,B,cb);
+and4 oo11(Y7,En,A,B,C);
+
+endmodule
+
 module nand_gate3(D1,A1,B1,C1);
   output D1;
   input A1,B1,C1;
@@ -132,3 +152,71 @@ module nand_gate2
    nand(Y, A, B);
 endmodule
 
+
+module and1(otp,in1,in2);
+  output otp;
+  input in1,in2;
+  wire otp1;
+
+  nand2 i101(otp1,in1,in2);
+  not_gate i202(otp,otp1);
+
+endmodule
+
+module or1(outp,in3,in4);
+  output outp;
+  input in3,in4;
+  wire otp1;
+
+  nor_gate i10101(otp1,in3,in4);
+  not_gate i20202(outp,otp1);
+
+endmodule
+
+module not_gate
+  (
+   Y, A
+   );
+   output Y;
+   input  A;
+
+   not(Y,A);
+
+endmodule
+
+
+
+module xor_gate2
+  (
+   Y, A, B
+   );
+
+  output Y;
+  input  A;
+  input  B;
+
+  xor(Y, A, B);
+
+endmodule
+
+module nand2
+  (
+   Y, A, B
+   );
+   output Y;
+   input  A;
+   input  B;
+
+   nand(Y, A, B);
+endmodule
+
+module nor_gate
+  (
+   Y, A, B
+   );
+   output Y;
+   input  A;
+   input  B;
+
+   nor(Y, A, B);
+endmodule
